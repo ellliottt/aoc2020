@@ -15,10 +15,16 @@ sanitize x =
         y       = T.drop 4 r2
     in (c, read (T.unpack i) :: Int, read (T.unpack j) :: Int, y)
 
-valid :: PasswordRecord -> Bool
-valid (c, i, j, x) = (x `T.index` (i - 1) == c) `xor` (x `T.index` (j - 1) == c)
+validA :: PasswordRecord -> Bool
+validA (c, i, j, x) = (x `T.index` (i - 1) == c) `xor` (x `T.index` (j - 1) == c)
+
+validB :: PasswordRecord -> Bool
+validB (c, i, j, x) = let n = T.foldl (\n c' -> if c == c' then n + 1 else n) 0 x
+                      in i <= n && n <= j
 
 main = do
-    xs <- TIO.readFile "data"
-    let ps = filter id $ fmap (valid . sanitize) $ T.lines xs
-    putStrLn $ show $ length ps
+    xs <- TIO.readFile "data/day2"
+    putStrLn $ f validA xs
+    putStrLn $ f validB xs
+
+    where f v xs = show $ length $ filter id $ fmap (v . sanitize) $ T.lines xs
