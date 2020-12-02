@@ -19,6 +19,6 @@ valid :: PasswordRecord -> Bool
 valid (c, i, j, x) = (x `T.index` (i - 1) == c) `xor` (x `T.index` (j - 1) == c)
 
 main = do
-    xs <- TIO.readFile "a.dat"
+    xs <- TIO.readFile "data"
     let ps = filter id $ fmap (valid . sanitize) $ T.lines xs
     putStrLn $ show $ length ps

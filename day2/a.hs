@@ -19,6 +19,6 @@ valid (c, i, j, x) = let n = T.foldl (\n c' -> if c == c' then n + 1 else n) 0 x
                      in i <= n && n <= j
 
 main = do
-    xs <- TIO.readFile "a.dat"
+    xs <- TIO.readFile "data"
     let ps = filter id $ fmap (valid . sanitize) $ T.lines xs
     putStrLn $ show $ length ps

@@ -5,7 +5,7 @@ sum3To n xs = do
     x' <- xs
     if n - x - x' `elem` xs then [(x, x', n - x - x')] else []
 
-main = lines <$> readFile "a.dat" >>= \xs ->
+main = lines <$> readFile "data" >>= \xs ->
     case sum3To 2020 (fmap read xs) of
         [] -> error "no sum"
         ((x, y, z):_) -> putStrLn $ show $ x * y * z
